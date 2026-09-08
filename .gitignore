@@ -1,0 +1,9 @@
+.DS_Store
+*.swp
+*~
+
+# Neovim: editor-local and generated files (plugins live in ~/.local/share/nvim)
+nvim/.config/nvim/.luarc.json
+nvim/.config/nvim/lazy-lock.json
+nvim/.config/nvim/spell/
+nvim/.config/nvim/tags
