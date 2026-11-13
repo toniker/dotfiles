@@ -225,3 +225,18 @@ unset _p10k
 if [[ -n "$ZSH_PROFILE" ]]; then
   zprof
 fi
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Claude Code CLI via Amazon Bedrock (scoped to this command so the desktop app uses the enterprise login)
+claude() {
+  CLAUDE_CODE_USE_BEDROCK=1 \
+  AWS_REGION=eu-north-1 \
+  AWS_PROFILE=default \
+  ANTHROPIC_DEFAULT_SONNET_MODEL='eu.anthropic.claude-sonnet-5[1m]' \
+  ANTHROPIC_DEFAULT_OPUS_MODEL='global.anthropic.claude-opus-5-5[1m]' \
+  ANTHROPIC_DEFAULT_HAIKU_MODEL='eu.anthropic.claude-haiku-4-5-20251001-v1:0' \
+  ANTHROPIC_DEFAULT_FABLE_MODEL='global.anthropic.claude-fable-5-1[1m]' \
+  command claude "$@"
+}
+
+alias has_conflicts='(git merge-tree --write-tree --name-only HEAD origin/develop >/dev/null; merge_tree_status=$?; case $merge_tree_status in 0) print no;; 1) print yes;; *) exit $merge_tree_status;; esac)'
