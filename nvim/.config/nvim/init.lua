@@ -58,10 +58,16 @@ vim.api.nvim_create_autocmd('FileType', {
   desc = 'Prose settings for commit messages and markdown',
   pattern = { 'gitcommit', 'markdown' },
   group = vim.api.nvim_create_augroup('prose', { clear = true }),
-  callback = function()
+  callback = function(args)
     vim.opt_local.spell = true
     vim.opt_local.wrap = true
     vim.opt_local.linebreak = true
+    -- The built-in gitcommit ftplugin sets textwidth=72, which hard-wraps
+    -- lines while typing. It runs after this autocmd, so undo it on the
+    -- next tick.
+    vim.schedule(function()
+      if vim.api.nvim_buf_is_valid(args.buf) then vim.bo[args.buf].textwidth = 0 end
+    end)
   end,
 })
 
